@@ -4,8 +4,18 @@
  */
 package Reader;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +25,7 @@ import java.util.Scanner;
  */
 public class Reader {
     
-    public static List<String> readTxt(String nfilev){ //direccion del archivo
+    public static ArrayList<String> readTxt(String nfilev){ //direccion del archivo
         
          ArrayList<String> lineastxt = new ArrayList<>();
         try(Scanner sc = new Scanner(new File(nfilev))){
@@ -66,8 +76,7 @@ public class Reader {
         }
         return binary;
     }
-    
-    
+        
     public static String textToBinary(String originalText) {
     String binaryText = "";
     for (int i = 0; i < originalText.length(); i++) {
@@ -100,4 +109,86 @@ public class Reader {
         return text;
     }
     
-}
+    
+    //generar archivo vacio de error
+    public static String guardarTxt(Scanner sc){
+    // Solicitar la ruta del archivo al usuario
+        System.out.print("Por favor, ingresa la ruta completa del archivo .txt: ");
+        String rutaArchivo = sc.nextLine();
+        
+        // Verificar que el archivo existe y es un archivo .txt
+        File archivo = new File(rutaArchivo);
+        if (!archivo.exists() || !archivo.isFile() || !rutaArchivo.endsWith(".txt")) {
+            System.out.println("El archivo no existe o no es un archivo .txt.");
+            return null;
+        }
+        
+        // Obtener el nombre del archivo
+        String nombreArchivo = archivo.getName();
+        
+        // Determinar la ruta de destino en la carpeta del proyecto
+        Path rutaDestino = Paths.get(System.getProperty("user.dir"), nombreArchivo);
+        
+        // Copiar el archivo a la carpeta del proyecto
+        try {
+            Files.copy(archivo.toPath(), rutaDestino);
+            System.out.println("El archivo " + nombreArchivo + " ha sido guardado en la carpeta del proyecto.");
+            ArrayList<String> lineas  = readTxt("/"+nombreArchivo);
+            ArrayList<String> binarios = new ArrayList<>();
+            for(String s: lineas){
+                System.out.println(textToBinary(s));
+                binarios.add(textToBinary(s));
+            }
+            crearArchivoBinario(binarios, nombreArchivo);
+            
+            return nombreArchivo+"BIN.txt";
+        } catch (IOException e) {
+            System.out.println("Error al copiar el archivo: " + e.getMessage());
+            return null;
+        }
+    }
+    
+    public static  String guardarTexto(String rutaArchivo, String texto){      
+        System.out.println("Hola usando guardarTexto");
+        ArrayList<String> lineas = ingresarTexto(texto);
+        ArrayList<String> binarios = new ArrayList<>();
+            for(String s: lineas){
+                System.out.println(textToBinary(s));
+                binarios.add(textToBinary(s));
+            }
+        crearArchivoBinario(binarios, rutaArchivo);
+        return rutaArchivo +"BIN.txt";
+    }
+    
+    public static ArrayList<String> ingresarTexto(String texto){
+         ArrayList<String> lineas = new ArrayList<>(Arrays.asList(texto.split("\n")));
+        
+        // Imprimir las líneas guardadas en el ArrayList
+        System.out.println("Las líneas ingresadas son:");
+        for (String linea : lineas) {
+            System.out.println(linea);
+        }
+        return lineas;
+    }
+    
+    public static boolean crearArchivoBinario(ArrayList<String> lineas, String nombre){
+        String nombreArchivo = nombre + "BIN.txt";
+        
+        // Ruta donde se guardará el archivo (en la carpeta del proyecto)
+        String rutaArchivo = System.getProperty("user.dir") + "/" + nombreArchivo;
+        
+        try (BufferedWriter escritor = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(rutaArchivo), StandardCharsets.UTF_8))) {
+            // Escribir cada línea en el archivo
+            for (String linea : lineas) {
+                escritor.write(linea + System.lineSeparator());
+            }
+            System.out.println("El archivo ha sido creado en: " + rutaArchivo);
+            return true;
+        } catch (IOException e) {
+            System.out.println("Ocurrió un error al crear el archivo: " + e.getMessage());
+            return false;
+        }
+    }
+    
+}    

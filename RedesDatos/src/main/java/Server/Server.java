@@ -4,6 +4,9 @@
  */
 package Server;
 
+import Reader.Reader;
+import static ec.edu.espol.redesdatos.RedesDatos.verifyInput;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -11,23 +14,23 @@ import java.util.Scanner;
  * @author icrio
  */
 public class Server {
-    String Content;
+    ArrayList<String> content;
     String name;
     String Address;
 
     public Server(String name, String Address) {
         this.name = name;
         this.Address = Address;
-        this.Content = null;
+        this.content = new ArrayList<>();
     
     }
     
-    public String getContent() {
-        return Content;
+    public ArrayList<String> getContent() {
+        return content;
     }
 
     public void setContent(String Content) {
-        this.Content = Content;
+        this.content.add(Content);
     }
 
     public String getName() {
@@ -83,5 +86,32 @@ public class Server {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Informacion del Server: \n Nombre: " + name + "\n Direccion: " + Address;
+    }
     
+    //controlar el null;
+    public static void retornarContenido(Scanner sc, ArrayList<String> content){
+        System.out.println("Archivos guardados en el servidor:");
+        for(int i = 0; i<content.size();i++){
+            System.out.println((i+1)+". "+content.get(i));
+        }
+        System.out.println("Ingrese una opcion:");
+        String eleccion = sc.nextLine();
+        boolean verify = verifyInput(eleccion,3);
+        while(verify != true){
+            System.out.println("Opcion no existente.\nIngrese una opcion correcta:");
+            String eleccion2= sc.nextLine();
+            System.out.println(eleccion2);
+            verify = verifyInput(eleccion2,3);
+            System.out.println(verify);
+            eleccion = eleccion2;
+        }
+        //generar metodo convertir archivo binario a texto;
+        ArrayList<String> archivoLineas = Reader.readTxt(content.get(Integer.parseInt(eleccion)-1));
+        for(String s: archivoLineas) System.out.println(Reader.binaryToText(s));
+        System.out.println("\n");
+    }
 }
