@@ -1,8 +1,9 @@
-Reader\Reader.class
 Server\Frame.class
-Layers\AppLayer.class
 ec\edu\espol\redesdatos\RedesDatos.class
-Layers\TransportLayer.class
 Server\Server.class
+Reader\Reader.class
+Layers\AppLayer.class
+Layers\IPPacket.class
+Layers\TransportLayer.class
 Layers\InternetLayer.class
 Layers\NetworkAccessLayer.class

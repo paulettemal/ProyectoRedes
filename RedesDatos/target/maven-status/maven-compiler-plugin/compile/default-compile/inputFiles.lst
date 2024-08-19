@@ -1,8 +1,12 @@
-C:\ProyectoRedes\RedesDatos\src\main\java\Layers\AppLayer.java
-C:\ProyectoRedes\RedesDatos\src\main\java\Server\Frame.java
-C:\ProyectoRedes\RedesDatos\src\main\java\Reader\Reader.java
-C:\ProyectoRedes\RedesDatos\src\main\java\Layers\TransportLayer.java
-C:\ProyectoRedes\RedesDatos\src\main\java\Layers\InternetLayer.java
-C:\ProyectoRedes\RedesDatos\src\main\java\Layers\NetworkAccessLayer.java
-C:\ProyectoRedes\RedesDatos\src\main\java\ec\edu\espol\redesdatos\RedesDatos.java
-C:\ProyectoRedes\RedesDatos\src\main\java\Server\Server.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Layers\AppLayer.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\ec\edu\espol\redesdatos\RedesDatos.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Layers\NetworkAccessLayer.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Grafo\Graph.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Server\Server.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Layers\InternetLayer.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Reader\Reader.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Server\Frame.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Grafo\Node.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Grafo\Edge.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\Layers\TransportLayer.java
+C:\Users\SJGOMEZ\OneDrive\Escritorio\4 Semestre\Redes de Datos\Proyecto\ProyectoRedes\RedesDatos\src\main\java\TopologiaFísica\TopologíaFisica.java
