@@ -99,18 +99,18 @@ public class Server {
             System.out.println((i+1)+". "+content.get(i));
         }
         System.out.println("Ingrese una opcion:");
-        String eleccion = sc.nextLine();
+        int eleccion = Integer.parseInt(sc.nextLine());
         boolean verify = verifyInput(eleccion,3);
         while(verify != true){
             System.out.println("Opcion no existente.\nIngrese una opcion correcta:");
-            String eleccion2= sc.nextLine();
+            int eleccion2= Integer.parseInt(sc.nextLine());
             System.out.println(eleccion2);
             verify = verifyInput(eleccion2,3);
             System.out.println(verify);
             eleccion = eleccion2;
         }
         //generar metodo convertir archivo binario a texto;
-        ArrayList<String> archivoLineas = Reader.readTxt(content.get(Integer.parseInt(eleccion)-1));
+        ArrayList<String> archivoLineas = Reader.readTxt(content.get(eleccion-1));
         for(String s: archivoLineas) System.out.println(Reader.binaryToText(s));
         System.out.println("\n");
     }
