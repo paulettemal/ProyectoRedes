@@ -9,19 +9,20 @@ import Reader.Reader;
 import java.util.Scanner;
 
 /**
- *
  * @author icrio
  */
 public class AppLayer {
     String inputUsuario;
     String inputUsuarioBinario;
     String nombreArchivo;
+    String finalText;
 
     public AppLayer(Scanner sc) {
         start(sc);
         convertoToBinario();
     }
-    public void start(Scanner sc){
+
+    public void start(Scanner sc) {
         System.out.println("Ingresa el texto a guardar: ");
         StringBuilder textoG = new StringBuilder();
         while (true) {
@@ -33,18 +34,26 @@ public class AppLayer {
         }
         inputUsuario = textoG.toString();
         System.out.println("Ingresa nombre del archivo: ");
-        nombreArchivo= sc.nextLine();
+        nombreArchivo = sc.nextLine();
 
     }
-    public void convertoToBinario(){
+
+    //Una vez la capa de transporte termine de unir todo el mensaje y no posea errores se pueda convertir en texto para almacenarlo en el servidor
+    public void convertToText(String textInBinario) {
+        finalText = Reader.binaryToText(textInBinario); }
+
+    //formato de conversion de el texto solo es pasar el texto a binario
+    public void convertoToBinario() {
         inputUsuarioBinario = Reader.textToBinary(inputUsuario);
     }
-    public String getInputUsuarioBinario(){
+
+    public String getInputUsuarioBinario() {
         return inputUsuarioBinario;
     }
-    public String getNombreArchivo(){
+
+    public String getNombreArchivo() {
         return nombreArchivo;
     }
 
-    
+
 }
