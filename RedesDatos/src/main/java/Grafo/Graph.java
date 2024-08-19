@@ -19,12 +19,12 @@ public class Graph {
         source.addNeighbor(edge);
     }
 
-    // Método para simular el envío de un paquete
-    public void sendPacket(Node source, Node destination, String packetData) {
-        // Aquí iría la lógica de envío, como un algoritmo de búsqueda (DFS, BFS, Dijkstra, etc.)
-        System.out.println("Sending packet from " + source.ip + " to " + destination.ip);
-        // Implementar el recorrido del grafo aquí...
-    }
+//    // Método para simular el envío de un paquete
+//    public void sendPacket(Node source, Node destination, String packetData) {
+//        // Aquí iría la lógica de envío, como un algoritmo de búsqueda (DFS, BFS, Dijkstra, etc.)
+//        System.out.println("Sending packet from " + source.ip + " to " + destination.ip);
+//        // Implementar el recorrido del grafo aquí...
+//    }
 
     public List<Node> getNodes() {
         return nodes;

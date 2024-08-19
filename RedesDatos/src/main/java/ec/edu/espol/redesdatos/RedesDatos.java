@@ -8,6 +8,8 @@ import Layers.AppLayer;
 import Layers.TransportLayer;
 import Reader.Reader;
 import Server.Server;
+import TopologiaFísica.TopologíaFisica;
+
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -18,12 +20,13 @@ import java.util.Scanner;
  * @author icrio
  */
 public class RedesDatos {
-    public static AppLayer appLayer;
-    public static Server servidor;
 
+    public static String clienteIP = "192.185.10.1";
+    public static Server servidor;
     public static int opcion;
 
     public static void main(String[] args) {
+        new TopologíaFisica();
         menuOpciones();
         Scanner sc= new Scanner(System.in,"UTF-8");
         sc.useDelimiter("\n");
@@ -42,7 +45,7 @@ public class RedesDatos {
                     
             //funcion para ingresar texto por consola
                 case 2:
-                    appLayer = new AppLayer(sc);
+                    AppLayer.start(sc);
 
                     // Debería ir 
                     /*String datosEnBinario = appLayer.getInputUsuarioBinario();

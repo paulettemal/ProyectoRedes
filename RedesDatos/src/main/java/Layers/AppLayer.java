@@ -12,18 +12,17 @@ import java.util.Scanner;
  * @author icrio
  */
 public class AppLayer {
-    String inputUsuario;
-    String inputUsuarioBinario;
-    String nombreArchivo;
-    String finalText;
+    static String inputUsuario;
+    private static String inputUsuarioBinario;
+    private static String nombreArchivo;
+    static String finalText;
 
-    public AppLayer(Scanner sc) {
-        start(sc);
-        convertoToBinario();
+    public AppLayer() {
+
     }
 
-    public void start(Scanner sc) {
-        System.out.println("Ingresa el texto a guardar: ");
+    public static void start(Scanner sc) {
+        System.out.println("Ingresa el texto (presiona enter 2 veces para guardar): ");
         StringBuilder textoG = new StringBuilder();
         while (true) {
             String linea = sc.nextLine();
@@ -35,25 +34,32 @@ public class AppLayer {
         inputUsuario = textoG.toString();
         System.out.println("Ingresa nombre del archivo: ");
         nombreArchivo = sc.nextLine();
+        convertoToBinario();
 
     }
 
     //Una vez la capa de transporte termine de unir todo el mensaje y no posea errores se pueda convertir en texto para almacenarlo en el servidor
-    public void convertToText(String textInBinario) {
+    public static void convertToText(String textInBinario) {
         finalText = Reader.binaryToText(textInBinario); }
 
     //formato de conversion de el texto solo es pasar el texto a binario
-    public void convertoToBinario() {
+    public static void convertoToBinario() {
         inputUsuarioBinario = Reader.textToBinary(inputUsuario);
     }
 
-    public String getInputUsuarioBinario() {
+    public static String getInputUsuarioBinario() {
         return inputUsuarioBinario;
     }
 
-    public String getNombreArchivo() {
+    public static String getNombreArchivo() {
         return nombreArchivo;
     }
 
+    public static String getFinalText() {
+        return finalText;
+    }
 
+    public static void setFinalText(String finalText) {
+        AppLayer.finalText = finalText;
+    }
 }
