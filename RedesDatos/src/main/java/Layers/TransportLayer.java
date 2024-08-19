@@ -17,8 +17,8 @@ public class TransportLayer{
     private static Map<Integer, String> mapaSegmentos = new HashMap<>();
     
     // Divide datos en particiones de igual longitud
-    public static String[] segmentacionPalabra(String palabra, int segSize){
-        int numTotalSeg = (int) Math.ceil((double) palabra.length()/segSize);
+    public static String[] segmentacionPalabra(String palabraBinaria, int segSize){
+        int numTotalSeg = (int) Math.ceil((double) palabraBinaria.length()/segSize);
         String[] segmentos = new String[numTotalSeg];
         
         //System.out.println("Longitud de palabra: " + palabra.length());
@@ -26,17 +26,21 @@ public class TransportLayer{
         
         for (int i=0; i<numTotalSeg; i++){
             int comienzo = i*segSize;
-            int fin = Math.min(comienzo+segSize, palabra.length());
-            segmentos[i] = palabra.substring(comienzo, fin);
+            int fin = Math.min(comienzo+segSize, palabraBinaria.length());
+            segmentos[i] = palabraBinaria.substring(comienzo, fin);
         }
         return segmentos;
     }
     
-    // Calcula el ascii y lo suma
+    // Calcula el num y suma
     public static int calcularChecksum(String segmento){
         int checksum = 0;
         for (char c:segmento.toCharArray()){
-            checksum += (int) c;
+            if (c == '1') {
+                checksum += 1;
+            } else {
+                checksum += 0;
+            }
         }
         return checksum;
     }
@@ -75,27 +79,27 @@ public class TransportLayer{
         return todo.toString();
     }
     
-    public static void main(String[] args){
-        String datos = "Simulacion de texto xd xd para esto del tcp, ayuda no sé q hacerle";
-        //segmentación
-        String[] segmentos = segmentacionPalabra(datos, 10);
+    public static void procesarDatosDesdeAplicacion(String datosEnBits) {
+        //Segmentación
+        String[] segmentos = segmentacionPalabra(datosEnBits, 10);
         System.out.println("Número de segmentos generados: " + segmentos.length);
-
-        //control de flujo y congestión
+        
+        // Control de flujo y congestión
         int enviarSegments = 0;
-        while (enviarSegments < segmentos.length){
-            if (puedeEnviar(enviarSegments)){
+        while (enviarSegments < segmentos.length) {
+            if (puedeEnviar(enviarSegments)) {
                 String segmento = segmentos[enviarSegments];
                 int sumeroSec = getSiguienteNumeroSecuencia();
                 int checksum = calcularChecksum(segmento);
                 System.out.println("Segmento " + (enviarSegments + 1) + " | Checksum: " + checksum);
-                mapaSegmentos.put(sumeroSec, segmento);
+                añadirSegmento(sumeroSec, segmento);
                 enviarSegments++;
                 incrementarVentana();
             }
         }
+
         // Reensamblaje
         String todo = reensamblarPalabra(segmentos.length);
-        System.out.println("Reensamblado: " + todo);
+        System.out.println("Reensamblado en bits: " + todo);
     }
 }

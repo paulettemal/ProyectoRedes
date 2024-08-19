@@ -5,6 +5,7 @@
 package ec.edu.espol.redesdatos;
 
 import Layers.AppLayer;
+import Layers.TransportLayer;
 import Reader.Reader;
 import Server.Server;
 import java.util.HashSet;
@@ -73,6 +74,18 @@ public class RedesDatos {
                 case 2:
                     appLayer = new AppLayer(sc);
 
+                    // Debería ir 
+                    /*String datosEnBinario = appLayer.getInputUsuarioBinario();
+                    TransportLayer.procesarDatosDesdeAplicacion(datosEnBinario);
+                    servidor.setContent(datosEnBinario);
+                    System.out.println("Datos procesados y almacenados");
+                    break;
+                    */
+                    
+            
+                    
+                    
+                    
 //                    System.out.println("Ingresa el texto a guardar: ");
 //                    StringBuilder textoG = new StringBuilder();
 //                    while (true) {
