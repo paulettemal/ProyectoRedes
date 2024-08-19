@@ -4,6 +4,7 @@
 
 package ec.edu.espol.redesdatos;
 
+import Layers.AppLayer;
 import Reader.Reader;
 import Server.Server;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Scanner;
  * @author icrio
  */
 public class RedesDatos {
-    
+    public static AppLayer appLayer;
     public static Server servidor;
 
     public static void main(String[] args) {
@@ -70,24 +71,27 @@ public class RedesDatos {
                     
             //funcion para ingresar .txt
                 case 2:
-                    System.out.println("Ingresa el texto a guardar: ");
-                    StringBuilder textoG = new StringBuilder();
-                    while (true) {
-                    String linea = sc.nextLine();
-                    if (linea.isEmpty()) {
-                        break;  // Si la línea está vacía, se termina la entrada.
-                    }
-                        textoG.append(linea).append("\n");  // Agrega la línea al párrafo con un salto de línea.
-                    }
+                    appLayer = new AppLayer(sc);
 
-                    System.out.println("Ingresa nombre del archivo: ");
-                    String rutaArchivo = sc.nextLine();
-                    
-                    
-                    String nombreArchivo = Reader.guardarTexto(rutaArchivo, textoG.toString());
-                    servidor.setContent(nombreArchivo);
-                    System.out.println("Texto guardado \n");
-                    
+//                    System.out.println("Ingresa el texto a guardar: ");
+//                    StringBuilder textoG = new StringBuilder();
+//                    while (true) {
+//                    String linea = sc.nextLine();
+//                    if (linea.isEmpty()) {
+//                        break;  // Si la línea está vacía, se termina la entrada.
+//                    }
+//                        textoG.append(linea).append("\n");  // Agrega la línea al párrafo con un salto de línea.
+//                    }
+//
+//                    System.out.println("Ingresa nombre del archivo: ");
+//                    String rutaArchivo = sc.nextLine();
+
+
+//                    String nombreArchivo = Reader.guardarTexto(rutaArchivo, textoG.toString());
+//
+//                    servidor.setContent(nombreArchivo);
+//                    System.out.println("Texto guardado \n");
+
                     System.out.println("""
                                                     Menú de Opciones:
                                                     1. Crear servidor
