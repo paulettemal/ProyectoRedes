@@ -118,14 +118,16 @@ public class Reader {
         
         // Verificar que el archivo existe y es un archivo .txt
         File archivo = new File(rutaArchivo);
-        if (!archivo.exists() || !archivo.isFile() || !rutaArchivo.endsWith(".txt")) {
-            System.out.println("El archivo no existe o no es un archivo .txt.");
-            return null;
-        }
         
         // Obtener el nombre del archivo
-        String nombreArchivo = archivo.getName();
-        
+        int lastIndex = rutaArchivo.lastIndexOf('\\');
+         String nombreArchivo;
+        if (lastIndex != -1) {
+            nombreArchivo = rutaArchivo.substring(lastIndex + 1);
+        } else {
+            nombreArchivo = rutaArchivo; // Si no hay '/', se devuelve todo el String
+        }
+        System.out.println(nombreArchivo);
         // Determinar la ruta de destino en la carpeta del proyecto
         Path rutaDestino = Paths.get(System.getProperty("user.dir"), nombreArchivo);
         
@@ -133,19 +135,23 @@ public class Reader {
         try {
             Files.copy(archivo.toPath(), rutaDestino);
             System.out.println("El archivo " + nombreArchivo + " ha sido guardado en la carpeta del proyecto.");
-            ArrayList<String> lineas  = readTxt("/"+nombreArchivo);
+            ArrayList<String> lineas  = readTxt(rutaArchivo);
             ArrayList<String> binarios = new ArrayList<>();
             for(String s: lineas){
                 System.out.println(textToBinary(s));
                 binarios.add(textToBinary(s));
             }
             crearArchivoBinario(binarios, nombreArchivo);
+
+            return nombreArchivo.replace(".txt", "") +"-BIN.txt";
+        
             
-            return nombreArchivo+"BIN.txt";
         } catch (IOException e) {
             System.out.println("Error al copiar el archivo: " + e.getMessage());
             return null;
         }
+        
+        
     }
     
     public static  String guardarTexto(String rutaArchivo, String texto){      
@@ -157,7 +163,7 @@ public class Reader {
                 binarios.add(textToBinary(s));
             }
         crearArchivoBinario(binarios, rutaArchivo);
-        return rutaArchivo +"BIN.txt";
+        return rutaArchivo.replace(".txt", "") +"BIN.txt";
     }
     
     public static ArrayList<String> ingresarTexto(String texto){
@@ -172,7 +178,7 @@ public class Reader {
     }
     
     public static boolean crearArchivoBinario(ArrayList<String> lineas, String nombre){
-        String nombreArchivo = nombre + "BIN.txt";
+        String nombreArchivo = nombre.replace(".txt", "") + "BIN.txt";
         
         // Ruta donde se guardará el archivo (en la carpeta del proyecto)
         String rutaArchivo = System.getProperty("user.dir") + "/" + nombreArchivo;

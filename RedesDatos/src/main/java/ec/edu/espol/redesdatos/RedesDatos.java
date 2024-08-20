@@ -27,7 +27,10 @@ public class RedesDatos {
     public static int opcion;
 
     public static void main(String[] args) {
+        
         new TopologíaFisica();
+        servidor.setLayer(clienteIP);
+        
         menuOpciones();
         Scanner sc= new Scanner(System.in,"UTF-8");
         sc.useDelimiter("\n");
@@ -39,15 +42,18 @@ public class RedesDatos {
 
             //funcion para ingresar texto por consola
                 case 1:
-                    AppLayer.start(sc,servidor);
+                    AppLayer ap1 = new AppLayer(clienteIP);
+                    ap1.start(sc,servidor);
                     establecerConexionToServer();
                 {
                     try {
-                        simulateProgress(100, 3);
+                        simulateProgress(10, 50);
                     } catch (Exception ex) {
                         Random random = new Random();
                         int chance = random.nextInt(3);
-                        Server.errorServidor(chance);
+                        IPPackage pack = InternetLayer.create_Package(clienteIP,servidor.getAddress(),servidor.getLayer());
+                        Server.errorServidor(sc, chance, servidor.getContent(),servidor.getLayer(), pack);
+                        break;
                     }
                 }
                     menuBucle(opcion,sc);
@@ -55,13 +61,24 @@ public class RedesDatos {
 
             //funcion que ingresar archivo .txt
                 case 2:
-                    System.out.println("Ingresa el archivo .txt a guardar: ");
                     String nombreArchivo2 = Reader.guardarTxt(sc);
-                    servidor.setContent(nombreArchivo2);
-                    IPPackage pack = InternetLayer.create_Package(clienteIP,servidor.getAddress(),nombreArchivo2);
-                    NetworkAccessLayer nAL = new NetworkAccessLayer(NetworkAccessLayer.generarMAC());
-                    nAL.encapsulate(pack);
-                    nAL.transmitFrame(pack);
+                    AppLayer ap = new AppLayer(clienteIP);
+                    servidor.setLayer(nombreArchivo2);
+                    TransportLayer.procesarDatosDesdeAplicacion(clienteIP);
+                    
+                    try {
+                        simulateProgress(10, 50);
+                        IPPackage pack = InternetLayer.create_Package(clienteIP,servidor.getAddress(),nombreArchivo2);
+                        NetworkAccessLayer nAL = new NetworkAccessLayer(NetworkAccessLayer.generarMAC());
+                        nAL.encapsulate(pack);
+                        nAL.transmitFrame(pack);
+                    } catch (Exception ex) {
+                        Random random = new Random();
+                        int chance = random.nextInt(3);
+                        IPPackage pack4 = InternetLayer.create_Package(clienteIP,servidor.getAddress(),servidor.getLayer());
+                        Server.errorServidor(sc, chance, servidor.getContent(),clienteIP, pack4);
+                        break;
+                    }
 
 
                     menuBucle(opcion,sc);
@@ -73,11 +90,20 @@ public class RedesDatos {
                     System.out.println(servidor.toString());
                     String nombreArch = Server.retornarContenido(sc,servidor.getContent());
                     
-                    IPPackage pack2 = InternetLayer.create_Package(clienteIP,servidor.getAddress(),nombreArch);
-                    NetworkAccessLayer nAL2 = new NetworkAccessLayer(NetworkAccessLayer.generarMAC());
-                    nAL2.decapsulate(pack2);
-                    nAL2.receiveFrame(pack2);
-                    
+                     try {
+                        simulateProgress(10, 50);
+                        IPPackage pack2 = InternetLayer.create_Package(clienteIP,servidor.getAddress(),nombreArch);
+                        NetworkAccessLayer nAL2 = new NetworkAccessLayer(NetworkAccessLayer.generarMAC());
+                        nAL2.decapsulate(pack2);
+                        nAL2.receiveFrame(pack2);
+                        
+                    } catch (Exception ex) {
+                        IPPackage pack2 = InternetLayer.create_Package(clienteIP,servidor.getAddress(),nombreArch);
+                        Random random = new Random();
+                        int chance = random.nextInt(3);
+                        Server.errorServidor(sc, chance, servidor.getContent(),servidor.getLayer(), pack2);
+                        break;
+                    }
                     
                     menuBucle(opcion, sc);
                     break;
@@ -91,6 +117,7 @@ public class RedesDatos {
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     public static void menuBucle(int eleccion, Scanner sc){
         menuOpciones();
+        sc.nextLine();
         eleccion = Integer.parseInt(sc.nextLine());
         verifyUntilTrue(eleccion,sc);
     }
@@ -132,10 +159,10 @@ public class RedesDatos {
         for (int i = 0; i <= max; i++) {
             // Chequear si ocurre un error
             checkForError(i);
-
             printProgressBar(i, max);
             try {
                 Thread.sleep(delay); // Pausa para simular el tiempo de procesamiento
+                
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -148,7 +175,7 @@ public class RedesDatos {
     // Método que imprime la barra de progreso
     private static void printProgressBar(int current, int total) {
         int progress = (current * 50) / total;
-        System.out.print("\r[");
+        System.out.print("\r["); // \r vuelve el cursor al principio de la línea
 
         for (int i = 0; i < 50; i++) {
             if (i < progress) {
@@ -158,17 +185,18 @@ public class RedesDatos {
             }
         }
         System.out.print("] " + (current * 100 / total) + "%");
+        System.out.flush();
     }
     
     private static void checkForError(int currentStep) throws Exception {
         Random random = new Random();
-        int chance = random.nextInt(100); // Número aleatorio entre 0 y 99
+        int chance = random.nextInt(0,50); // Número aleatorio entre 0 y 99
 
         // Simular un error con un 10% de probabilidad
         if (chance < 10) {
             throw new Exception("Se produjo un error en el paso " + currentStep);
         }
-    }    
+    }
     
 }
 

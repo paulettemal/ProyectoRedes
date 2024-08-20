@@ -4,11 +4,12 @@
  */
 package Server;
 
+import Layers.TransportLayer;
 import Reader.Reader;
 import static ec.edu.espol.redesdatos.RedesDatos.verifyInput;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
-
 /**
  *
  * @author icrio
@@ -17,11 +18,13 @@ public class Server {
     ArrayList<String> content;
     String name;
     String Address;
+    String Layer;
 
     public Server(String name, String Address) {
         this.name = name;
         this.Address = Address;
         this.content = new ArrayList<>();
+        this.Layer = null;
     
     }
     
@@ -86,6 +89,15 @@ public class Server {
         }
         return false;
     }
+    
+    public String getLayer() {
+        return Layer;
+    }
+
+    public void setLayer(String Layer) {
+        this.Layer = Layer;
+    }
+
 
     @Override
     public String toString() {
@@ -116,30 +128,52 @@ public class Server {
         return content.get(eleccion-1);
     }
     
-    public static void errorServidor(int numero){
+   public static void errorServidor(Scanner sc, int numero, ArrayList<String> content, String checkSum, IPPackage pack){
         switch(numero){
                 case 1:
-                    simulateErrorEnvio();
+                    simulateErrorEnvio(checkSum);
                     break;
                 
                case 2:
-                   simulateErrorLostPackets();
+                   simulateErrorLostPackets(pack);
                     break;
+                    
                case 3:
-                   simulateErrorMessage();
+                   simulateErrorMessage(sc, content);
                    break;
         }
     }
     
-    public static void simulateErrorEnvio(){
-    
+    public static void simulateErrorEnvio(String layer){
+        System.out.println("Valor: " + TransportLayer.calcularChecksum(layer)*10 + " es Incorrecto! Index de paquete fuera de orden.");
     }
     
-    public static void simulateErrorLostPackets(){
-    
+    public static void simulateErrorLostPackets(IPPackage pack){
+        String frame = pack.getFrameHeader();
+        Random random = new Random();
+        System.out.println("Paquete #" + (random.nextInt(0, 50)+ frame));
     }
     
-    public static void simulateErrorMessage(){
-    
+    public static void simulateErrorMessage(Scanner sc,ArrayList<String> content){
+        String textoAlt = retornarContenido(sc, content);
+        String binario = Reader.textToBinary(textoAlt);
+        Random random = new Random();
+        StringBuilder md = new StringBuilder(textoAlt  );
+        char[] specialChars = {'0', '1'};
+        int numberOfModifications = random.nextInt(0,textoAlt.length()) + 1;
+
+        for (int i = 0; i < numberOfModifications; i++) {
+            // Posición aleatoria en el string
+            int position = random.nextInt(md.length());
+
+            // Carácter especial aleatorio
+            char specialChar = specialChars[random.nextInt(specialChars.length)];
+            
+            // Insertar el carácter especial en la posición aleatoria
+            md.insert(position, specialChar);
+        }
+        
+        System.out.println("Archivo corrupto, elementos mal procesados |Mostrando errores|");
+        System.out.println(md.toString());
     }
 }

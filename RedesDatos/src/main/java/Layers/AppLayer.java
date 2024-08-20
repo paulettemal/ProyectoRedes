@@ -18,8 +18,8 @@ public class AppLayer {
     private static String nombreArchivo;
     static String finalText;
 
-    public AppLayer() {
-
+    public AppLayer(String ip) {
+        this.inputUsuarioBinario = ip;
     }
 
     public static void start(Scanner sc, Server servidor) {
@@ -39,7 +39,7 @@ public class AppLayer {
         
         String datosEnBinario = AppLayer.getInputUsuarioBinario();
         TransportLayer.procesarDatosDesdeAplicacion(datosEnBinario);
-        servidor.setContent(datosEnBinario);
+        servidor.setLayer(datosEnBinario);
 
     }
 

@@ -3,7 +3,6 @@ ec\edu\espol\redesdatos\RedesDatos.class
 Server\Server.class
 Reader\Reader.class
 Layers\AppLayer.class
-Layers\IPPacket.class
 Layers\TransportLayer.class
 Layers\InternetLayer.class
 Layers\NetworkAccessLayer.class
