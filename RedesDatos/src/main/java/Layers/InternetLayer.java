@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Layers;
+
 import java.util.Arrays;
-import Layers.AppLayer;
-import Layers.TransportLayer;
+import Server.IPPackage;
 /**
  *
  * @author icrio
@@ -79,30 +75,5 @@ public class InternetLayer {
         routePacket(ipPacket);
 
         System.out.println("Data processed and routed to the next host.");
-    }
-
-    // Data de la capa - Paquete
-    class IPPackage{
-        private String sourceIP;
-        private String destinationIP;
-        private byte[] data;
-
-        public IPPackage(String sourceIP, String destinationIP, byte[] data) {
-            this.sourceIP = sourceIP;
-            this.destinationIP = destinationIP;
-            this.data = data;
-        }
-
-        public String getSourceIP() {
-            return sourceIP;
-        }
-
-        public String getDestinationIP() {
-            return destinationIP;
-        }
-
-        public byte[] getData() {
-            return data;
-        }
     }
 }
