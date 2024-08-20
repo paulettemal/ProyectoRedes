@@ -14,6 +14,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static Layers.TransportLayer.establecerConexionToServer;
+
 /**
  *
  * @author icrio
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
 public class RedesDatos {
 
     public static String clienteIP = "192.185.10.1";
-    public static Server servidor;
+    public static Server servidor = new Server("servidor","192.168.1.1");
     public static int opcion;
 
     public static void main(String[] args) {
@@ -32,19 +34,13 @@ public class RedesDatos {
         opcion = Integer.parseInt(sc.nextLine());
         verifyUntilTrue(opcion,sc);
 
-        while(opcion != 5){
+        while(opcion != 4){
             switch (opcion) {
-                case 1:
-                    servidor = Server.createServer();
-                    System.out.println("Servidor creado. \n");
 
-                    menuBucle(opcion,sc);
-                    break;
-                    
-                    
             //funcion para ingresar texto por consola
-                case 2:
+                case 1:
                     AppLayer.start(sc,servidor);
+                    establecerConexionToServer();
                 {
                     try {
                         simulateProgress(100, 3);
@@ -58,7 +54,7 @@ public class RedesDatos {
                     break;
 
             //funcion que ingresar archivo .txt
-                case 3:
+                case 2:
                     System.out.println("Ingresa el archivo .txt a guardar: ");
                     String nombreArchivo2 = Reader.guardarTxt(sc);
                     servidor.setContent(nombreArchivo2);
@@ -72,7 +68,7 @@ public class RedesDatos {
                     break;
 
                 //funcion para obtener información del servidor
-                case 4:
+                case 3:
                     System.out.println("La informacion del servidor es: ");
                     System.out.println(servidor.toString());
                     String nombreArch = Server.retornarContenido(sc,servidor.getContent());
@@ -110,15 +106,14 @@ public class RedesDatos {
     public static void menuOpciones(){
         System.out.println("""
                                                            Menú de Opciones:
-                                                           1. Crear servidor
-                                                           2. Ingresar texto al servidor
-                                                           3. Ingresar archivo .txt al servidor
-                                                           4. Obtener informacion del Servidor
-                                                           5. Salir""");
+                                                           1. Ingresar texto al servidor
+                                                           2. Ingresar archivo .txt al servidor
+                                                           3. Obtener informacion del Servidor
+                                                           4. Salir""");
         System.out.println("Ingrese una opcion:");
     }
     public static void verifyUntilTrue(int eleccion, Scanner sc){
-        boolean verify = verifyInput(eleccion,6);
+        boolean verify = verifyInput(eleccion,5);
         while(verify != true){
             System.out.println("Opcion no existente.\nIngrese una opcion correcta:");
             int eleccion2= Integer.parseInt(sc.nextLine());

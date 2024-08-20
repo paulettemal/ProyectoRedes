@@ -16,7 +16,10 @@ public class TopologíaFisica {
         topoFisica.addNode(intermediario);
 
         topoFisica.addEdge(cliente,intermediario,1);
-        //Agregar servidores
+
+        Node Server = new Node(RedesDatos.servidor.getAddress());
+        topoFisica.addNode(Server);
+        topoFisica.addEdge(intermediario,Server, 2);
 
 
     }

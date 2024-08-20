@@ -4,7 +4,14 @@
  */
 package Layers;
 
+import Grafo.Node;
+import Server.Server;
+import TopologiaFísica.TopologíaFisica;
+import ec.edu.espol.redesdatos.RedesDatos;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +38,32 @@ public class TransportLayer{
         }
         return segmentos;
     }
-    
+    public static boolean establecerConexionToServer(){
+        Node nodoCliente = null;
+        Node nodoServidor = null;
+        for(Node nodo :TopologíaFisica.topoFisica.getNodes()){
+            Node nodoC= nodo.getSelf(RedesDatos.clienteIP);
+            Node nodoS= nodo.getSelf(RedesDatos.servidor.getAddress());
+            if(nodoC != null){
+                nodoCliente = nodoC;
+            }
+            if(nodoS != null){
+                nodoServidor = nodoS;
+            }
+        }
+        Node intermedio = nodoCliente.getNeighbors().getFirst().getDestination();
+        while (true){
+            if(intermedio.getEstado()){
+                Node server =  intermedio.getNeighbors().getFirst().getDestination();
+                System.out.println("Conexión establecida con: " + server.getIp());
+                break;
+            }
+            System.out.println("Conexión fallida, intentando de nuevo...");
+        }
+        return true;
+    }
+
+
     // Calcula el num y suma
     public static int calcularChecksum(String segmento){
         int checksum = 0;
