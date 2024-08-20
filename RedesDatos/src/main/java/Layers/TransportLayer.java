@@ -40,15 +40,10 @@ public class TransportLayer{
     }
     public static boolean establecerConexionToServer(){
         Node nodoCliente = null;
-        Node nodoServidor = null;
         for(Node nodo :TopologíaFisica.topoFisica.getNodes()){
             Node nodoC= nodo.getSelf(RedesDatos.clienteIP);
-            Node nodoS= nodo.getSelf(RedesDatos.servidor.getAddress());
             if(nodoC != null){
                 nodoCliente = nodoC;
-            }
-            if(nodoS != null){
-                nodoServidor = nodoS;
             }
         }
         Node intermedio = nodoCliente.getNeighbors().getFirst().getDestination();
