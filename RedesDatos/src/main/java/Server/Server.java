@@ -93,7 +93,7 @@ public class Server {
     }
     
     //controlar el null;
-    public static void retornarContenido(Scanner sc, ArrayList<String> content){
+    public static String retornarContenido(Scanner sc, ArrayList<String> content){
         System.out.println("Archivos guardados en el servidor:");
         for(int i = 0; i<content.size();i++){
             System.out.println((i+1)+". "+content.get(i));
@@ -113,5 +113,33 @@ public class Server {
         ArrayList<String> archivoLineas = Reader.readTxt(content.get(eleccion-1));
         for(String s: archivoLineas) System.out.println(Reader.binaryToText(s));
         System.out.println("\n");
+        return content.get(eleccion-1);
+    }
+    
+    public static void errorServidor(int numero){
+        switch(numero){
+                case 1:
+                    simulateErrorEnvio();
+                    break;
+                
+               case 2:
+                   simulateErrorLostPackets();
+                    break;
+               case 3:
+                   simulateErrorMessage();
+                   break;
+        }
+    }
+    
+    public static void simulateErrorEnvio(){
+    
+    }
+    
+    public static void simulateErrorLostPackets(){
+    
+    }
+    
+    public static void simulateErrorMessage(){
+    
     }
 }

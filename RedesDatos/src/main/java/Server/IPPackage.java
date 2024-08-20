@@ -12,9 +12,9 @@ public class IPPackage {
      private String sourceIP;
         private String destinationIP;
         private String frameHeader;
-        private byte[] data;
+        private String data;
 
-        public IPPackage(String sourceIP, String destinationIP, byte[] data) {
+        public IPPackage(String sourceIP, String destinationIP, String data) {
             this.sourceIP = sourceIP;
             this.destinationIP = destinationIP;
             this.data = data;
@@ -29,7 +29,7 @@ public class IPPackage {
             return destinationIP;
         }
 
-        public byte[] getData() {
+        public String getData() {
             return data;
         }
         

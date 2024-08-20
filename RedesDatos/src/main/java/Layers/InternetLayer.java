@@ -14,12 +14,19 @@ public class InternetLayer {
     }
     
     // Método para crear el paquete
-    public IPPackage create_Package(String sourceIP, String destinationIP, byte[] data) {
+    public static IPPackage create_Package(String sourceIP, String destinationIP, String data) {
+        sendICMPRequest(destinationIP);
         return new IPPackage(sourceIP, destinationIP, data);
+    }
+    
+    public void internetSetUp(IPPackage pack, String checksum){
+        applyIPsec(pack,checksum);
+        routePacket(pack);
+         processDataFromTransportLayer(pack);
     }
 
     // Simular protocolo ICMP (sending echo request and receiving echo reply)
-    public void sendICMPRequest(String destinationIP) {
+    public static void sendICMPRequest(String destinationIP) {
         System.out.println("Sending ICMP Echo Request to " + destinationIP);
         // Simulate receiving a reply
         System.out.println("Received ICMP Echo Reply from " + destinationIP);
@@ -28,7 +35,7 @@ public class InternetLayer {
     // Simular protocolo IPsec (encrypting and authenticating IP packets)
     public IPPackage applyIPsec(IPPackage packet, String encryptionKey) {
         System.out.println("Applying IPsec to packet...");
-        byte[] encryptedData = Arrays.copyOf(packet.getData(), packet.getData().length); // For simplicity, just copying the data
+        String encryptedData = packet.getData(); // For simplicity, just copying the data
         
         return new IPPackage(packet.getSourceIP(), packet.getDestinationIP(), encryptedData);
     }
@@ -59,7 +66,7 @@ public class InternetLayer {
         System.out.println("Processing data from AppLayer...");
 
         // Convertir datos de aplicación en bytes
-        byte[] dataBytes = appData.getBytes();
+        String dataBytes = appData;
 
         // Crear un paquete IP con los datos recibidos
         IPPackage IPPackage = create_Package(sourceIP, destinationIP, dataBytes);

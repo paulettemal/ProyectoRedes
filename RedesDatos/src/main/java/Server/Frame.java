@@ -27,9 +27,4 @@ public class Frame {
         this.capaAccesoRed = capaAccesoRed;
         this.data = data;
     }
-    
-    
-    
-    
-    
 }

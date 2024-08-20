@@ -5,6 +5,7 @@
 package Layers;
 
 import Reader.Reader;
+import Server.Server;
 
 import java.util.Scanner;
 
@@ -21,8 +22,8 @@ public class AppLayer {
 
     }
 
-    public static void start(Scanner sc) {
-        System.out.println("Ingresa el texto (presiona enter 2 veces para guardar): ");
+    public static void start(Scanner sc, Server servidor) {
+        System.out.println("Ingresa el texto (presiona enter 2 veces al final para guardar): ");
         StringBuilder textoG = new StringBuilder();
         while (true) {
             String linea = sc.nextLine();
@@ -35,6 +36,10 @@ public class AppLayer {
         System.out.println("Ingresa nombre del archivo: ");
         nombreArchivo = sc.nextLine();
         convertoToBinario();
+        
+        String datosEnBinario = AppLayer.getInputUsuarioBinario();
+        TransportLayer.procesarDatosDesdeAplicacion(datosEnBinario);
+        servidor.setContent(datosEnBinario);
 
     }
 

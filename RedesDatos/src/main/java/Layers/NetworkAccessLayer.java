@@ -2,6 +2,7 @@
 package Layers;
 
 import Server.IPPackage;
+import java.util.Random;
 
 /**
  *
@@ -37,7 +38,7 @@ public class NetworkAccessLayer {
     }
 
     // Método para simular la decapsulación de un frame
-    private void decapsulate(IPPackage packet) {
+    public void decapsulate(IPPackage packet) {
         System.out.println("Decapsulando el frame.");
         packet.removeFrameHeader();
     }
@@ -50,4 +51,23 @@ public class NetworkAccessLayer {
     public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
     }
+    
+    public static String generarMAC() {
+        Random random = new Random();
+        byte[] macAddr = new byte[6];
+        random.nextBytes(macAddr);
+
+        // Formatear bytes en hexadecimal y construir la dirección MAC
+        StringBuilder macStr = new StringBuilder(18);
+        for (int i = 0; i < macAddr.length; i++) {
+            // Convertir cada byte en un valor hexadecimal sin signo
+            macStr.append(String.format("%02x", macAddr[i]));
+            if (i != macAddr.length - 1) {
+                macStr.append(":");
+            }
+        }
+        return macStr.toString();
+    }
+
+    
 }
